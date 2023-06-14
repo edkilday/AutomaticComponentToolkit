@@ -196,6 +196,7 @@ func buildCPPInternalException(wHeader LanguageWriter, wImpl LanguageWriter, Nam
 	wHeader.Writeln("#define __%s_INTERFACEEXCEPTION_HEADER", strings.ToUpper(NameSpace));
 	wHeader.Writeln("");
 
+	wHeader.Writeln("#include <string>");
 	wHeader.Writeln("#include <exception>");
 	wHeader.Writeln("#include <stdexcept>");
 
@@ -1742,7 +1743,7 @@ func generatePrePostCallCPPFunctionCode(component ComponentDefinition, method Co
 					preCallCode = append(preCallCode, fmt.Sprintf("I%s* pBase%s(nullptr);", paramClassName, param.ParamName))
 					postCallCode = append(postCallCode, fmt.Sprintf("*%s = (%s*)(pBase%s);", variableName, IBaseClassName, param.ParamName));
 					callParameters = callParameters + "pBase" + param.ParamName
-					outCallParameters = outCallParameters + "pBase" + param.ParamName
+					outCallParameters = outCallParameters + "(IBase*&)pBase" + param.ParamName + " /* Here */"
 				}
 				
 
